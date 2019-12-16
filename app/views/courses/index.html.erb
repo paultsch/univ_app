@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col s12">
     <h1 class="center-align">Course Listing</h1>
-    <a class="waves-effect waves-light btn pink center-align" href="courses/new"><i class="material-icons left">add_circle</i>Add Course</a>
+    <a class="waves-effect waves-light btn red lighten-2" href="courses/new"><i class="material-icons left">add_circle</i>Add Course</a>
   </div>
 </div>
 
@@ -19,7 +19,7 @@
             <%= link_to "Enroll", course_enroll_path(course_id: course.id), method: :post %>
           <% end %>
           <% if logged_in? && current_user.courses.include?(course) %>
-            <%= link_to "Unenroll", course_unenroll_path(course_id: course.id), method: :post %>
+            <%= link_to "Unenroll", course_unenroll_path(course_id: course.id), method: :delete %>
           <% end %>
           <%= link_to "View Course", course_path(course)%>
         </div>

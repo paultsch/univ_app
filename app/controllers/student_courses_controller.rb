@@ -14,6 +14,10 @@ end
 
 def destroy
   course_to_delete = Course.find(params[:course_id])
+  line_to_delete = StudentCourse.find_by(course: course_to_delete, student: current_user)
+  StudentCourse.delete(line_to_delete.id)
+  flash[:notice] = "#{current_user.name} has been unenrolled from #{course_to_delete.name}."
+  redirect_to current_user
 end
 
 end

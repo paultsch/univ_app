@@ -10,6 +10,6 @@ resources :courses
 resources :students
 
 post 'course_enroll', to: 'student_courses#create'
-delete 'course_unenroll', to: 'stduetn_courses#destroy'
+delete 'course_unenroll', to: 'student_courses#destroy'
 
 end
