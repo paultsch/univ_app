@@ -1,0 +1,38 @@
+
+
+<div class="container">
+  <div class="row center sign-up-form">
+    <div class="col s12 m12 l12">
+      <div class="card-panel">
+        <h3 class="header"><%= @course.new_record? ? "Create New Course" : "Edit #{@course.name}" %></h3>
+        <div class="row">
+          <%= form_for(@course, html: { class: "col s12" }) do |f| %>
+            <div class="row">
+              <div class="input-field col s12">
+                <%= f.text_field :short_name, placeholder: "Enter course short name", autofocus: true %>
+                <%= f.label :short_name, class: "active" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <%= f.text_field :name, placeholder: "Enter course name" %>
+                <%= f.label :name, class: "active" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <%= f.text_area :description, placeholder: "Enter course description" %>
+                <%= f.label :description, class: "active" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <%= f.button(@course.new_record? ? '<i class="material-icons right">arrow_forward</i>Create'.html_safe : '<i class="material-icons right">arrow_forward</i>Update'.html_safe, class: "btn orange waves-effect waves-light right") %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

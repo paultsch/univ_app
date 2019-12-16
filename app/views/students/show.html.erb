@@ -1,0 +1,25 @@
+<div class="col s6 m6">
+  <div class="card blue-grey darken-1">
+    <div class="card-content white-text">
+      <span class="card-title"><%= @student.name %></span>
+      <p><%= @student.email %></p>
+      <p>Course Enrollments:
+        <% if @student.courses.empty? %>
+          None
+        <% else %>
+          <ul>
+            <% @student.courses.each do |course| %>
+              <li><%= link_to "#{course.name}", course_path(course) %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        </p>
+    </div>
+    <% if current_user == @student %>
+      <div class="card-action">
+          <%= link_to "Edit Profile", edit_student_path(@student) %>
+          <%= link_to "Delete Student",student_path(@student), method: :delete, data: {confirm: "Arm you sure you want to delete this student?"} %>
+      </div>
+    <% end %>
+  </div>
+</div>
