@@ -1,4 +1,6 @@
 class StudentCoursesController < ApplicationController
+before_action :require_student, only: [:create, :destroy]
+
 
 def create
    course_to_add = Course.find(params[:course_id])
@@ -18,6 +20,21 @@ def destroy
   StudentCourse.delete(line_to_delete.id)
   flash[:notice] = "#{current_user.name} has been unenrolled from #{course_to_delete.name}."
   redirect_to current_user
+end
+
+private
+def require_admin
+  if !logged_in? || !current_user.admin?
+    flash[:notice] = "Only admin users can perform that action"
+    redirect_to courses_path
+  end
+end
+
+def require_student
+  if !logged_in? || !current_user.student?
+    flash[:notice] = "Only students users can enroll/unenroll from classes themselves from classes"
+    redirect_to courses_path
+  end
 end
 
 end

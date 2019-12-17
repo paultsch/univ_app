@@ -1,6 +1,8 @@
 class CoursesController < ApplicationController
 skip_before_action :require_user
 before_action :set_course, only: [:edit, :show, :update, :destroy]
+before_action :require_admin, only: [:new, :create, :destroy]
+before_action :require_admin_or_teacher, only: [:edit, :update]
 
   def index
     @courses = Course.all
@@ -50,6 +52,20 @@ private
 
   def set_course
     @course = Course.find(params[:id])
+  end
+
+  def require_admin
+    if !logged_in? || !current_user.admin?
+      flash[:notice] = "Only admin users can perform that action"
+      redirect_to courses_path
+    end
+  end
+
+  def require_admin_or_teacher
+    if !logged_in? && (!current_user.teacher? || !current_user.admin?)
+      flash[:notice] = "Only admin or teachers can perform that action"
+      redirect_to courses_path
+    end
   end
 
 end

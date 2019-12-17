@@ -1,5 +1,74 @@
 <div class="row">
   <div class="col s12">
+    <h1 class="center-align">Admin's Directory</h1>
+  </div>
+</div>
+
+
+<div class="row">
+  <% @admins.each do |admin| %>
+    <div class="col s6 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><%= admin.name %></span>
+          <p><%= admin.email %></p>
+        </div>
+        <div class="card-action">
+          <%= link_to "View", student_path(admin) %>
+          <% if logged_in? && current_user.admin? %>
+            <%= link_to "Edit", edit_student_path(admin) %>
+            <% if current_user != admin %>
+              <%= link_to "Delete", student_path(admin), method: :delete, data: {confirm: "Arm you sure you want to delete this student?"} %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <h1 class="center-align">Teacher's Directory</h1>
+  </div>
+</div>
+
+
+<div class="row">
+  <% @teachers.each do |teacher| %>
+    <div class="col s6 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><%= teacher.name %></span>
+          <p><%= teacher.email %></p>
+          <p>Course Enrollments:
+          <% if teacher.courses.empty? %>
+            None
+          <% else %>
+            <ul>
+              <% teacher.courses.each do |course| %>
+                <li><%= link_to "#{course.name}", course_path(course) %></li>
+              <% end %>
+            </ul>
+          <% end %>
+          </p>
+        </div>
+        <div class="card-action">
+          <%= link_to "View", student_path(teacher) %>
+          <% if (logged_in? && current_user.admin?) || (logged_in? && current_user == teacher) %>
+            <%= link_to "Edit", edit_student_path(teacher) %>
+            <% if current_user.admin? %>
+              <%= link_to "Delete", student_path(teacher), method: :delete, data: {confirm: "Arm you sure you want to delete this student?"} %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col s12">
     <h1 class="center-align">Student's Directory</h1>
   </div>
 </div>
@@ -25,23 +94,13 @@
           </p>
         </div>
         <div class="card-action">
-          <%= link_to "View Profile", student_path(student.id) %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
-
-<div class="row">
-  <% @teachers.each do |teacher| %>
-    <div class="col s6 m6">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title"><%= teacher.name %></span>
-          <p><%= teacher.email %></p>
-          <p>Classes Taught:</p>
-        </div>
-        <div class="card-action">
+          <%= link_to "View", student_path(student) %>
+          <% if (logged_in? && (current_user.admin? || current_user.teacher?)) || (logged_in? && current_user == student) %>
+            <%= link_to "Edit", edit_student_path(student) %>
+            <% if current_user.admin? || current_user.teacher? %>
+              <%= link_to "Delete", student_path(student), method: :delete, data: {confirm: "Arm you sure you want to delete this student?"} %>
+            <% end %>
+          <% end %>
         </div>
       </div>
     </div>

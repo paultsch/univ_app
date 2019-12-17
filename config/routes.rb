@@ -12,6 +12,4 @@ resources :students
 post 'course_enroll', to: 'student_courses#create'
 delete 'course_unenroll', to: 'student_courses#destroy'
 
-get 'teachers', to: 'students#index_teachers_admin'
-
 end

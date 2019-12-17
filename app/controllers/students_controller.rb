@@ -2,15 +2,12 @@ class StudentsController < ApplicationController
 skip_before_action :require_user, only: [:new, :create]
 before_action :set_student, only: [:show, :edit, :update, :destroy]
 before_action :require_same_student, only:[:edit, :update, :destroy]
+before_action :require_admin, only:[:destory]
 
   def index
     @students = Student.where(student: true)
     @teachers = Student.where(teacher: true)
-  end
-
-  def index_teachers_admin
-    @teachers = Student.where(teacher: true)
-    # @admins = Student.where(admin: true)
+    @admins = Student.where(admin: true)
   end
 
   def show
@@ -59,9 +56,16 @@ private
   end
 
   def require_same_student
-    if current_user != @student
+    if current_user != @student && !current_user.admin?
       flash[:danger] = "You can only edit your own account"
       redirect_to edit_student_path(current_user)
+    end
+  end
+
+  def require_admin
+    if logged_in? and !current_user.admin?
+      flash[:notice] = "Only admin users can perform that action"
+      redirect_to students_path
     end
   end
 
