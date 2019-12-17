@@ -17,7 +17,7 @@ before_action :require_same_student, only:[:edit, :update, :destroy]
   def create
     @student = Student.new(student_params)
     if @student.save
-      # session[:student_id] = @student.id
+      session[:student_id] = @student.id
       flash[:notice] = "You have successfully signed up #{@student.name}"
       redirect_to student_path(@student)
     else
