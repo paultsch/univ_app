@@ -4,7 +4,13 @@ before_action :set_student, only: [:show, :edit, :update, :destroy]
 before_action :require_same_student, only:[:edit, :update, :destroy]
 
   def index
-    @students = Student.all
+    @students = Student.where(student: true)
+    @teachers = Student.where(teacher: true)
+  end
+
+  def index_teachers_admin
+    @teachers = Student.where(teacher: true)
+    # @admins = Student.where(admin: true)
   end
 
   def show
